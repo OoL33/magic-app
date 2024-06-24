@@ -8,16 +8,17 @@ import (
 	"fmt"
 	"time"
 
+	"magic-app/cmd/web"
+
 	"github.com/a-h/templ"
 	"github.com/gorilla/mux"
-	"magic-app/cmd/web"
 	"nhooyr.io/websocket"
 )
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", s.HelloWorldHandler)
+	r.HandleFunc("/", s.IndexPageHandler)
 
 	r.HandleFunc("/health", s.healthHandler)
 
@@ -27,24 +28,26 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r.PathPrefix("/assets/").Handler(fileServer)
 
 	r.HandleFunc("/web", func(w http.ResponseWriter, r *http.Request) {
-		templ.Handler(web.HelloForm()).ServeHTTP(w, r)
+		templ.Handler(web.IndexForm()).ServeHTTP(w, r)
 	})
 
-	r.HandleFunc("/hello", web.HelloWebHandler)
+	r.HandleFunc("/index", web.IndexWebHandler)
+
+	r.HandleFunc("/login", s.LoginPageHandler).Methods("GET")
+	r.HandleFunc("/login", s.LoginPostHandler).Methods("POST")
+
+	r.HandleFunc("/signup", s.SignupPageHandler).Methods("GET")
+	r.HandleFunc("/signup", s.SignupPostHandler).Methods("POST")
 
 	return r
 }
 
-func (s *Server) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	resp := make(map[string]string)
-	resp["message"] = "Hello World"
-
-	jsonResp, err := json.Marshal(resp)
+func (s *Server) IndexPageHandler(w http.ResponseWriter, r *http.Request) {
+	err := web.IndexForm().Render(r.Context(), w)
 	if err != nil {
-		log.Fatalf("error handling JSON marshal. Err: %v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-
-	_, _ = w.Write(jsonResp)
 }
 
 func (s *Server) healthHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +58,40 @@ func (s *Server) healthHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, _ = w.Write(jsonResp)
+}
+
+func (s *Server) LoginPageHandler(w http.ResponseWriter, r *http.Request) {
+	err := web.LoginForm().Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (s *Server) LoginPostHandler(w http.ResponseWriter, r *http.Request) {
+	username := r.FormValue("username")
+	err := web.LoginPost(username).Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (s *Server) SignupPageHandler(w http.ResponseWriter, r *http.Request) {
+	err := web.SignupForm().Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (s *Server) SignupPostHandler(w http.ResponseWriter, r *http.Request) {
+	username := r.FormValue("username")
+	err := web.SignupPost(username).Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func (s *Server) websocketHandler(w http.ResponseWriter, r *http.Request) {
