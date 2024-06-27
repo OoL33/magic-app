@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-class {
+    @apply bg-blue-500 text-white;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .custom-class {
+      @apply bg-blue-800 text-gray-200;
+    }
+  
+    body {
+      @apply bg-gray-900 text-white;
+    }
+  
+    footer {
+      @apply bg-gray-800 text-gray-400;
+    }
+  }

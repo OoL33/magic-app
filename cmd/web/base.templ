@@ -5,17 +5,25 @@ templ Base() {
 	<html lang="en">
 		<head>
 			<meta charset="utf-8"/>
-			<title>MTG App</title>
-            <link href="assets/css/output.css" rel="stylesheet"/>
+			<title>Magic App</title>
+      <link href="assets/css/output.css" rel="stylesheet"/>
 			<script src="assets/js/htmx.min.js"></script>
 		</head>
 		<body class="flex flex-col min-h-screen">
+			<header class="bg-blue-600 text-white p-4 dark:bg-gray-800 dark:text-gray-200">
+				<nav>
+					<ul class="flex space-x-4">
+						<li><a href="/login" hx-get="/login" hx-target="body" hx-swap="innerHTML" class="hover:text-gray-200">Login</a></li>
+						<li><a href="/signup" hx-get="/signup" hx-target="body" hx-swap="innerHTML" class="hover:text-gray-200">Sign Up</a></li>
+					</ul>
+				</nav>
+			</header>
 			<main class="flex-grow">
 				{ children... }
 			</main>
-		<footer class="bg-gray-200 text-center p-4 mt-8 w-full">
-			<p>© 2024 MTG App</p>
-        </footer>
+			<footer class="bg-gray-200 text-center p-4 mt-8 w-full dark:bg-gray-800 dark:text-gray-400">
+				<p>© 2024 MTG App</p>
+      </footer>
 		</body>
 	</html>
 }
