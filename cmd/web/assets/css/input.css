@@ -3,19 +3,29 @@
 @tailwind utilities;
 
 .custom-class {
-    @apply bg-blue-500 text-white;
+    @apply bg-pink-600 text-white;
   }
   
-  @media (prefers-color-scheme: dark) {
-    .custom-class {
-      @apply bg-blue-800 text-gray-200;
-    }
-  
-    body {
-      @apply bg-gray-900 text-white;
-    }
-  
-    footer {
-      @apply bg-gray-800 text-gray-400;
-    }
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .custom-class {
+    @apply bg-blue-500 text-gray-200;
+  }
+
+  body {
+    @apply bg-gray-900 text-white;
+  }
+
+  footer {
+    @apply bg-gray-900 text-gray-200;
+  }
+}
+
+  button, #dark-mode-toggle {
+    border: 2px solid;
+    padding: 2em 2em;
+    font-size: 1em;
+    transition: all 0.25s;
+    border-radius: 50px;
+    margin: 20px;
   }

@@ -6,24 +6,26 @@ templ Base() {
 		<head>
 			<meta charset="utf-8"/>
 			<title>Magic App</title>
-      <link href="assets/css/output.css" rel="stylesheet"/>
+			<link href="assets/css/output.css" rel="stylesheet"/>
 			<script src="assets/js/htmx.min.js"></script>
+			<script src="assets/js/toggleDarkMode.js"></script>
 		</head>
 		<body class="flex flex-col min-h-screen">
 			<header class="bg-blue-600 text-white p-4 dark:bg-gray-800 dark:text-gray-200">
-				<nav>
+				<nav class="flex justify-between items-center">
 					<ul class="flex space-x-4">
 						<li><a href="/login" hx-get="/login" hx-target="body" hx-swap="innerHTML" class="hover:text-gray-200">Login</a></li>
 						<li><a href="/signup" hx-get="/signup" hx-target="body" hx-swap="innerHTML" class="hover:text-gray-200">Sign Up</a></li>
 					</ul>
+					<button id="dark-mode-toggle" class="bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200"></button>
 				</nav>
 			</header>
 			<main class="flex-grow">
 				{ children... }
 			</main>
-			<footer class="bg-gray-200 text-center p-4 mt-8 w-full dark:bg-gray-800 dark:text-gray-400">
+			<footer class="bg-gray-200 text-gray-800 text-center p-4 mt-8 w-full dark:bg-gray-800 dark:text-gray-400">
 				<p>© 2024 MTG App</p>
-      </footer>
+			</footer>
 		</body>
 	</html>
 }

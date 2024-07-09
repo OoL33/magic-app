@@ -28,7 +28,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r.PathPrefix("/assets/").Handler(fileServer)
 
 	r.HandleFunc("/web", func(w http.ResponseWriter, r *http.Request) {
-		templ.Handler(web.IndexForm()).ServeHTTP(w, r)
+		templ.Handler(web.Index()).ServeHTTP(w, r)
 	})
 
 	r.HandleFunc("/index", web.IndexWebHandler)
@@ -43,7 +43,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 }
 
 func (s *Server) IndexPageHandler(w http.ResponseWriter, r *http.Request) {
-	err := web.IndexForm().Render(r.Context(), w)
+	err := web.Index().Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
